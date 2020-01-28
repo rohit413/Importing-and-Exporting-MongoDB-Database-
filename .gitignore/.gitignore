@@ -1,0 +1,208 @@
+##Importing and Exporting MongoDB Database
+
+MongoDB provides you with 2 ways:
+mongoexport/mongoimport
+mongodump/mongostore
+
+mongoexport: Being used to export data from a Collection to a file ( json, csv,..)
+mongoimport: Being used to import data to a Collection from a file ( json, csv,..)
+
+Collection is the concept of MongoDB, which is equivalent to Table concepts in relational databases ( Oracle, SQL Server, MySQL, ..).
+
+mongodump: Being used to export all datas of a database to files (Put in a folder), including some files ( bson, json)
+
+mongostore: Being used to import all datas to a database from dump directory (Product of mongodump)
+
+2- Import/Export Collection
+    2.1- mongoexport
+    # Export to json
+mongoexport -d database_name - c collection_name -o outfile.json
+ 
+ 
+# Export to file csv
+mongoexport --csv -o /tmp/people.csv -d school -c people -f firstName,lastName,telephone,email
+
+     2.1.1- mongoexport ra file json
+  In the case of simple export, you don't need to use many options in  mongoexport command:
+
+# Export to json file
+# This is the simplest syntax.
+# The default output is json file so you do not need to specify the output file type
+ 
+mongoexport -d database_name -c collection_name -o outfile.json
+
+
+Example, export a collection to JSON file: 
+cd C:\DevPrograms\MongoDB\bin
+
+
+
+Export Department Collection in myfirstdb database to json file:  C:/test/department.json. 
+    Note: MongoDB is case sensitive.
+Department
+Employee
+Inventory_Item
+Product_Category
+
+ mongoexport -d myfirstdb -c Department -o C:/test/department.json
+
+
+
+
+
+2.1.2- mongoexport to csv file
+
+# Export to csv file
+# This is the simplest syntax:
+# In the case csv file, you must provide the list of columns Collection (Required).
+# List of columns separated by commas and no spaces.
+# Must declare what type of output file (--csv)
+ 
+mongoexport -d database_name -c collection_name -f column_1,column_2,column_3 --csv -o outfile.csv
+ 
+ 
+mongoexport -d myfirstdb -c Department -f dept_id,dept_no,dept_name,location,description --csv -o C:/test/department.csv
+
+
+
+
+
+Open department.csv with Microsoft Excel:
+
+
+
+
+
+2.1.3- mongoexport and options
+TODO
+2.2- mongoimport
+# Import from json file
+mongoimport -d database_name -c collection_name outfile.json
+ 
+ 
+ 
+# Import from csv file
+# --headerline: Using the first row of data as the column name of the Collection.
+mongoimport -d database_name -c collection_name --type csv --file locations.csv --headerline
+
+2.2.1- mongoimport from json file
+Import data from a json file into a Collection:
+cd C:\DevPrograms\MongoDB\bin
+
+ 
+ 
+ 
+# Import from json file.
+mongoimport -d database_name -c collection_name outfile.json
+ 
+# Import into myfirstdb database
+# Insert into Collection: Department2
+# From file C:/test/department.json
+mongoimport -d myfirstdb -c Department2 C:/test/department.json
+ 
+
+
+ 
+ 
+ 
+See result on visual tools RoboMongo:
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+2.2.2- mongoimport from csv file
+Import data from a csv file into a Collection:
+ 
+# Import from csv file
+# This is the simplest syntax:
+# --headerline: Using the first row of data as the column name of the Collection.
+ 
+ 
+mongoimport -d database_name -c collection_name --type csv --file locations.csv --headerline
+ 
+
+
+
+cd C:\DevPrograms\MongoDB\bin
+
+
+
+# Import from file to database: myfirstdb
+# Into collection: Department3
+# File location: C:/test/department.csv
+# --headerline: Using the first row of data as the column name of the Collection.
+ 
+mongoimport -d myfirstdb -c Department3 --type csv --file C:/test/department.csv --headerline
+
+
+
+
+
+
+Result see on visual tool RoboMongo:
+
+2.3- mongoexport/mongoimport and options
+In a general situation, you have options for import/export, see in the followin
+
+ 
+ 
+ 
+ 
+3- Import/Export Database
+mongodump used to export the entire database to a directory.
+mongostore used to import the all datas to a database from a directory (export product of mongodump).
+3.1- mongodump
+# The syntax to export the entire database to a directory (Includes some files)
+ 
+mongodump -d database_name -o output_directory
+ 
+Example:
+Export myfirstdb database to directory: C:/test
+ 
+
+ 
+cd C:\DevPrograms\MongoDB\bin
+ 
+
+ 
+mongodump -d myfirstdb -o C:/test
+
+
+The result, subfolder myfirstdb created in the directory C:/test, it contains some files.
+ 
+
+3.2- mongorestore
+# The simplest syntax to import an entire database.
+ 
+mongorestore -d database_name path_to_database
+ 
+For example, the folder C:/test/myfirstdb containing the dump files. We will use it to import into the database: mydb2
+ 
+
+
+cd C:\DevPrograms\MongoDB\bin
+
+
+
+mongorestore -d mydb2 C:\test\myfirstdb
+
+
+
+View on visual tools RoboMongo:
+
+
+# Export to csv file
+# This is the simplest syntax:
+# In the case csv file, you must provide the list of columns Collection (Required).
+# List of columns separated by commas and no spaces.
+# Must declare what type of output file (--csv)
+ 
+mongoexport -d database_name -c collection_name -f column_1,column_2,column_3 --csv -o outfile.csv
